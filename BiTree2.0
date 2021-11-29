@@ -1,0 +1,134 @@
+
+
+// ПРАЦЮЄ ТІЛЬКИ В ДЕВ-Ц++
+
+
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+
+int tabs = 0; 
+
+struct Branch
+{
+	int Data; 
+	Branch* rightson;
+	Branch* leftson; 
+	
+};
+
+void Random(int dataT, Branch*& treeBranch)
+{
+	if (!treeBranch)
+	{ 
+		treeBranch = new Branch;
+		treeBranch->Data = dataT;
+		treeBranch->leftson = 0;
+		treeBranch->rightson = 0;
+		return;
+	}
+	else 
+		if (treeBranch->Data > dataT)
+		{ 
+			Random(dataT, treeBranch->leftson);
+		}
+		else
+		{ 
+			Random(dataT, treeBranch->rightson);
+		};
+}
+
+void print(Branch* treeBranch) 
+{
+	 if (!treeBranch) return; 
+	 tabs += 3; 
+	
+	print(treeBranch->leftson); 
+	for (int i = 0; i < tabs; i++) cout << " "; 
+	cout << treeBranch->Data << endl; 
+
+	print(treeBranch->rightson);
+	tabs-= 3; 
+	return;
+}
+
+void straightforward(Branch*& treeBranch) 
+{
+	if (NULL == treeBranch)    return;    
+	cout << treeBranch->Data << endl; 
+	straightforward(treeBranch->leftson);  
+	straightforward(treeBranch->rightson); 
+}
+
+
+
+
+
+
+void add_elem(int dataT, Branch*& treeBranch) 
+{
+	if (!treeBranch)
+	{
+		treeBranch = new Branch;
+		treeBranch->Data = dataT;
+		treeBranch->leftson = 0;
+		treeBranch->rightson = 0;
+		return;
+	}
+	else
+	{
+		if (dataT < treeBranch->Data) {
+			add_elem(dataT, treeBranch->leftson);
+		}
+		else if (dataT > treeBranch->Data) {
+			add_elem(dataT, treeBranch->rightson);
+		}
+	}
+}
+
+int main()
+{
+	
+	Branch* Root = 0;
+	int num;
+	int element;
+	
+
+
+	cout<<"Enter numb of elements ";
+	cin >> num;
+	cout << endl;
+
+	for (int i = 0; i < num; i++)
+	{
+		Random(rand() % 50, Root); 
+		
+	}
+	cout << "Tree: " << endl;
+	print(Root);
+	cout << endl;
+
+	cout << "straightforward tree: " << endl;
+	straightforward(Root);
+	cout << endl;
+	
+	
+
+	cout << "Addition to elem:" << endl;
+	cout << "Enter new element: ";
+	cin >> element;
+	add_elem(element, Root);
+
+	cout << "Tree output: " << endl;
+	print(Root);
+	cout << endl;
+
+	
+
+	cout << "Tree output: " << endl;
+	print(Root);
+	cout << endl;
+
+
+	return 0;
+}
